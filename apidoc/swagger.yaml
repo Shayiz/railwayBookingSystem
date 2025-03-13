@@ -1,0 +1,183 @@
+openapi: 3.0.0
+info:
+  title: Railway Ticket Booking  API
+  description: API for managing booking of train tickets.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /tickets/book-ticket:
+    post:
+      summary: Book a new Ticket
+      description: Book tickets for upto 5 passengers at a time
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      age:
+                        type: number
+                      gender:
+                        type: string
+                        enum:
+                          - Male
+                          - Female
+                          - Other
+
+      responses:
+        200:
+          description: Ticket booked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Ticket Booked
+                  bookedTickets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ticketId:
+                          type: string
+                        name:
+                          type: string
+                        age:
+                          type: number
+                        status:
+                          type: string
+                        berthType:
+                          type: string
+                  childPassengers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        passengerId:
+                          type: string
+                        name:
+                          type: string
+                        age:
+                          type: string
+
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid input"
+                  code:
+                    type: string
+                    example: "ERROR_CODE"
+
+  /available-tickets:
+    get:
+      summary: Get all available tickets
+      description: Provides the count of all the available tickets
+      responses:
+        200:
+          description: Available tickets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  totalTicketsAvailable:
+                    type: number
+                  availableTickets:
+                    type: number
+                  availableRAC:
+                    type: number
+                  availableWaitingList:
+                    type: number
+
+  /booked-tickets:
+    get:
+      summary: Get bookings
+      description: Fetches a list of bookings  name.
+      responses:
+        200:
+          description: A list of bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  bookedTickets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        berth_type:
+                          type: string
+                        booking_time:
+                          type: string
+                        passenger.name:
+                          type: string
+                        passenger.age:
+                          type: number
+                        passenger.gender:
+                          type: string
+
+  /ticket/{id}:
+    delete:
+      summary: Cancel booking by ticket id
+      description: " Cancel booking"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ticket ID
+          schema:
+            type: string
+            example: "uuid"
+      responses:
+        200:
+          description: "Cancel booking status"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+        404:
+          description: Booking not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Booking not found"
+                  code:
+                    type: string
+                    example: "NOT_FOUND"

@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "joi": "^17.13.3",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.1",
+    "sequelize": "^6.37.5",
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.7.3",
+    "umzug": "^3.8.2",
+    "yamljs": "^0.3.0"
+  }
+}
